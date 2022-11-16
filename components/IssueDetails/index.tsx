@@ -1,4 +1,4 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { Issue } from '../../types/Issue';
 import { Title, Badge, Text, Avatar } from 'react-native-paper';
 import { MarkdownView } from 'react-native-markdown-view';
@@ -10,7 +10,7 @@ interface IssueDetailsProps {
 
 export default function IssueDetails({ issue }: IssueDetailsProps) {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.avatarContainer}>
         <View style={styles.imageContainer}>
           <Avatar.Image source={{ uri: issue.user.avatar_url }} />
@@ -39,10 +39,10 @@ export default function IssueDetails({ issue }: IssueDetailsProps) {
         </Text>
         <MarkdownView style={styles.markdownView}>{issue.body}</MarkdownView>
       </View>
-      <View>
+      <View style={styles.container}>
         <Title style={styles.title}>Comments</Title>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -54,5 +54,5 @@ const styles = StyleSheet.create({
   dateString: { color: 'black', textAlign: 'center' },
   avatarContainer: { flexDirection: 'row', maxWidth: 400, justifyContent: 'center' },
   text: { color: 'black' },
-  markdownView: { fontFamily: 'Roboto' },
+  markdownView: { fontFamily: 'monospace' },
 });

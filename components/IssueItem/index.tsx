@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Badge, Card, Text } from 'react-native-paper';
 import { Issue } from '../../types/Issue';
 import { invertColor } from '../../utils/helper';
@@ -15,14 +15,10 @@ export default function IssueItem({ issue, handleNavigation }: IssueItemProps) {
   ).toLocaleDateString()}`;
 
   return (
-    <Card
-      mode="outlined"
-      style={{ marginHorizontal: 10, marginVertical: 5, borderRadius: 5 }}
-      onPress={() => handleNavigation(issue)}
-    >
+    <Card mode="outlined" style={styles.cardContainer} onPress={() => handleNavigation(issue)}>
       <Card.Title title={issue.title} subtitle={subTitle} />
       <Card.Content>
-        <View style={{ flexDirection: 'row', flexGrow: 1, justifyContent: 'center' }}>
+        <View style={styles.badgeContainer}>
           {issue.labels?.map((label) => (
             <Badge
               key={label.node_id}
@@ -42,3 +38,8 @@ export default function IssueItem({ issue, handleNavigation }: IssueItemProps) {
     </Card>
   );
 }
+
+const styles = StyleSheet.create({
+  cardContainer: { marginHorizontal: 10, marginVertical: 5, borderRadius: 5 },
+  badgeContainer: { flexDirection: 'row', flexGrow: 1, justifyContent: 'center' },
+});
