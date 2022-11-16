@@ -37,7 +37,7 @@ export default function IssueDetails({ issue }: IssueDetailsProps) {
         <Text style={styles.dateString}>
           Created at: {new Date(issue.created_at).toLocaleDateString()}
         </Text>
-        <MarkdownView style={{ fontFamily: 'Roboto' }}>{issue.body}</MarkdownView>
+        <MarkdownView style={styles.markdownView}>{issue.body}</MarkdownView>
       </View>
       <View>
         <Title style={styles.title}>Comments</Title>
@@ -54,4 +54,5 @@ const styles = StyleSheet.create({
   dateString: { color: 'black', textAlign: 'center' },
   avatarContainer: { flexDirection: 'row', maxWidth: 400, justifyContent: 'center' },
   text: { color: 'black' },
+  markdownView: { fontFamily: 'Roboto' },
 });
