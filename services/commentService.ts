@@ -7,7 +7,6 @@ const getComments = async (nodeId: string): Promise<Comment[]> => {
     const parsedComments = JSON.parse(comments ?? '[]');
     return parsedComments;
   } catch (e) {
-    console.log(e);
     return [];
   }
 };

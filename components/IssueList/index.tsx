@@ -23,7 +23,6 @@ export default function IssueList({ navigation }: IssueListProp) {
   const [issues, setIssues] = useState<Issue[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  console.log(page);
   useEffect(() => {
     const fetchIssues = async () => {
       const issues: Issue[] = await getIssues(page);

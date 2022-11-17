@@ -21,7 +21,7 @@ const addComment = async (nodeId: string, comment: Comment): Promise<void> => {
     comments.push(comment);
     await AsyncStorage.setItem(nodeId, JSON.stringify(comments));
   } catch (e) {
-    console.log(e);
+    return;
   }
 };
 
