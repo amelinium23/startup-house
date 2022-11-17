@@ -1,7 +1,7 @@
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Issue } from '../../types/Issue';
 import { Title, Text, Avatar } from 'react-native-paper';
-import { MarkdownView } from 'react-native-markdown-view';
+import Markdown from '@valasolutions/react-native-markdown';
 import { useCallback, useEffect } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -61,7 +61,7 @@ export default function IssueDetails({ issue }: IssueDetailsProps) {
         <Text style={styles.dateString}>
           Created at: {new Date(issue.created_at).toLocaleDateString()}
         </Text>
-        <MarkdownView style={styles.markdownView}>{issue.body}</MarkdownView>
+        <Markdown style={styles.markdownView}>{issue.body}</Markdown>
       </View>
       <CommentsContainer issueId={issue.node_id} addComment={addComment} />
     </ScrollView>
