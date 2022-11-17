@@ -1,8 +1,7 @@
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Issue } from '../../types/Issue';
-import { Title, Badge, Text, Avatar } from 'react-native-paper';
+import { Title, Text, Avatar } from 'react-native-paper';
 import { MarkdownView } from 'react-native-markdown-view';
-import { invertColor } from '../../utils/helper';
 import { useCallback, useEffect } from 'react';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';

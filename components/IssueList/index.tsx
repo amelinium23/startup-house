@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FlatList } from 'react-native';
+import { FlatList, View, StyleSheet } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { Issue } from '../../types/Issue';
 import IssueItem from '../IssueItem';
@@ -20,7 +20,8 @@ interface IssueListProp {
 }
 
 export default function IssueList({ navigation }: IssueListProp) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState<number>(1);
   const [issues, setIssues] = useState<Issue[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -32,6 +33,7 @@ export default function IssueList({ navigation }: IssueListProp) {
       if (issues.length > 0) {
         setIssues((prevIssues) => [...prevIssues, ...issues]);
       }
+      setIsInitialLoading(false);
       setIsLoading(false);
     };
     fetchIssues();
@@ -47,7 +49,7 @@ export default function IssueList({ navigation }: IssueListProp) {
   };
 
   const renderItem = ({ item }: { item: Issue }) => (
-    <IssueItem key={item.node_id} issue={item} handleNavigation={() => handleNavigation(item)} />
+    <IssueItem issue={item} handleNavigation={() => handleNavigation(item)} />
   );
 
   const onEndReached = async () => {
@@ -60,7 +62,11 @@ export default function IssueList({ navigation }: IssueListProp) {
     return null;
   }
 
-  return (
+  return isInitialLoading ? (
+    <View style={styles.loader}>
+      <ActivityIndicator animating />
+    </View>
+  ) : (
     <FlatList
       data={filteredIssues}
       initialNumToRender={30}
@@ -69,8 +75,15 @@ export default function IssueList({ navigation }: IssueListProp) {
       onEndReached={onEndReached}
       onEndReachedThreshold={0.7}
       ListHeaderComponent={<SearchBar searchQuery={searchQuery} handleSearch={setSearchQuery} />}
-      ListFooterComponent={() => (isLoading ? <ActivityIndicator animating /> : null)}
+      ListFooterComponent={() =>
+        isLoading ? <ActivityIndicator style={styles.bottomLoader} animating /> : null
+      }
       stickyHeaderIndices={[0]}
     />
   );
 }
+
+const styles = StyleSheet.create({
+  loader: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  bottomLoader: { marginBottom: 10 },
+});

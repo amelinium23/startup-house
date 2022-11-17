@@ -10,6 +10,7 @@ export default function SearchBar({ searchQuery, handleSearch }: SearchBarProps)
   return (
     <View style={styles.searchContainer}>
       <TextInput
+        testID="searchInput"
         value={searchQuery}
         onChangeText={(e) => handleSearch(e)}
         placeholder="Type title of the issue"

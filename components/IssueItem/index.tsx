@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { invertColor } from '../../utils/helper';
-import { Badge, Card, Text } from 'react-native-paper';
+import { StyleSheet } from 'react-native';
+import { Card, Text } from 'react-native-paper';
 import { Issue } from '../../types/Issue';
 import BadgeContainer from '../BadgeContainer';
 
