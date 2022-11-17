@@ -4,8 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { Issue } from '../../types/Issue';
 import IssueItem from '../IssueItem';
 import { ActivityIndicator } from 'react-native-paper';
-import type { RootStackParamList } from '../../types/RootStackParamList';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import SearchBar from '../SearchBar';
 
 const getIssues = async (page: number) => {
@@ -16,7 +14,7 @@ const getIssues = async (page: number) => {
 };
 
 interface IssueListProp {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'issue'>;
+  navigation: { navigate: (name: string, { issue }: { issue: Issue }) => void };
 }
 
 export default function IssueList({ navigation }: IssueListProp) {
