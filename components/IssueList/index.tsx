@@ -51,7 +51,12 @@ export default function IssueList({ navigation }: IssueListProp) {
   );
 
   const onEndReached = async () => {
-    if (searchQuery !== '') return;
+    if (searchQuery !== '') {
+      const filteredIssues = issues.filter((issue: Issue) =>
+        issue.title.toLocaleLowerCase().includes(searchQuery)
+      );
+      setIssues(filteredIssues);
+    }
     setIsLoading(true);
     setPage(page + 1);
   };
@@ -71,7 +76,7 @@ export default function IssueList({ navigation }: IssueListProp) {
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}
       onEndReached={onEndReached}
-      onEndReachedThreshold={0.7}
+      onEndReachedThreshold={0.5}
       ListHeaderComponent={<SearchBar searchQuery={searchQuery} handleSearch={setSearchQuery} />}
       ListFooterComponent={() =>
         isLoading ? <ActivityIndicator style={styles.bottomLoader} animating /> : null
