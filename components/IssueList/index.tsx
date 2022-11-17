@@ -18,12 +18,12 @@ interface IssueListProp {
 }
 
 export default function IssueList({ navigation }: IssueListProp) {
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState<number>(1);
   const [issues, setIssues] = useState<Issue[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
+  console.log(page);
   useEffect(() => {
     const fetchIssues = async () => {
       const issues: Issue[] = await getIssues(page);
@@ -31,7 +31,12 @@ export default function IssueList({ navigation }: IssueListProp) {
       if (issues.length > 0) {
         setIssues((prevIssues) => [...prevIssues, ...issues]);
       }
-      setIsInitialLoading(false);
+      if (issues.length > 0 && searchQuery !== '') {
+        const filteredIssues = issues.filter((issue: Issue) =>
+          issue.title.toLocaleLowerCase().includes(searchQuery)
+        );
+        setIssues(filteredIssues);
+      }
       setIsLoading(false);
     };
     fetchIssues();
@@ -51,12 +56,6 @@ export default function IssueList({ navigation }: IssueListProp) {
   );
 
   const onEndReached = async () => {
-    if (searchQuery !== '') {
-      const filteredIssues = issues.filter((issue: Issue) =>
-        issue.title.toLocaleLowerCase().includes(searchQuery)
-      );
-      setIssues(filteredIssues);
-    }
     setIsLoading(true);
     setPage(page + 1);
   };
@@ -65,18 +64,13 @@ export default function IssueList({ navigation }: IssueListProp) {
     return null;
   }
 
-  return isInitialLoading ? (
-    <View style={styles.loader}>
-      <ActivityIndicator animating />
-    </View>
-  ) : (
+  return (
     <FlatList
       data={filteredIssues}
       initialNumToRender={30}
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}
       onEndReached={onEndReached}
-      onEndReachedThreshold={0.5}
       ListHeaderComponent={<SearchBar searchQuery={searchQuery} handleSearch={setSearchQuery} />}
       ListFooterComponent={() =>
         isLoading ? <ActivityIndicator style={styles.bottomLoader} animating /> : null
