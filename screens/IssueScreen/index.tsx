@@ -1,8 +1,7 @@
 import type { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Appbar, Badge, Title } from 'react-native-paper';
+import { Appbar } from 'react-native-paper';
 import { RootStackParamList } from '../../types/RootStackParamList';
-import { View } from 'react-native';
 import IssueDetails from '../../components/IssueDetails';
 interface IssueScreenProps {
   navigation: NativeStackNavigationProp<RootStackParamList, 'issue'>;

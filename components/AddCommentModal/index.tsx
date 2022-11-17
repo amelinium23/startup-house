@@ -1,6 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Portal, Modal, Button, TextInput } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
+import { Portal, Modal, Button, TextInput, Title } from 'react-native-paper';
 import { Comment } from '../../types/Comment';
 
 interface AddCommentModalProps {
@@ -16,13 +16,20 @@ export default function AddCommentModal({
   onDismiss,
   addComment,
 }: AddCommentModalProps) {
+  const [isLoading, setIsLoading] = React.useState(false);
   const [body, setBody] = React.useState('');
   const [title, setTitle] = React.useState('');
 
   const handleSaveComment = async () => {
-    await addComment(issueId, { body, title, id: `${title}-${body}` } as Comment);
+    setIsLoading(true);
+    await addComment(issueId, {
+      body,
+      title,
+      id: `${title}-${body}-${Math.round(Math.random() * 100)}`,
+    } as Comment);
     setTitle('');
     setBody('');
+    setIsLoading(false);
     onDismiss(false);
   };
 
@@ -31,9 +38,10 @@ export default function AddCommentModal({
       <Modal
         visible={visible}
         onDismiss={() => onDismiss(false)}
-        contentContainerStyle={{ backgroundColor: 'white', padding: 20 }}
+        contentContainerStyle={styles.containerStyle}
       >
         <View>
+          <Title style={styles.title}>Add new comment</Title>
           <TextInput
             label="Title"
             mode="outlined"
@@ -48,8 +56,15 @@ export default function AddCommentModal({
             onChange={(e) => setBody(e.nativeEvent.text)}
           />
         </View>
-        <View>
-          <Button disabled={!title || !body} onPress={handleSaveComment}>
+        <View style={styles.buttonContainer}>
+          <Button
+            style={styles.button}
+            mode="contained"
+            loading={isLoading}
+            buttonColor="#43A047"
+            disabled={!title || !body}
+            onPress={handleSaveComment}
+          >
             Save comment
           </Button>
         </View>
@@ -57,3 +72,17 @@ export default function AddCommentModal({
     </Portal>
   );
 }
+
+const styles = StyleSheet.create({
+  containerStyle: { backgroundColor: 'white', padding: 20 },
+  title: { marginBottom: 5, textAlign: 'center', fontSize: 16 },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginVertical: 5,
+  },
+  button: {
+    alignSelf: 'center',
+    width: '50%',
+  },
+});
